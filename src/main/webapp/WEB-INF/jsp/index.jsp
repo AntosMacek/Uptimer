@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,16 +23,16 @@
     </form:form>
 </div>
 
-
 <h2>Results:</h2>
-<ul>
-    <c:forEach items="${itemList}" var="item">
-        <li>
-            <p>${item}</p>
-            <p>${item.price}</p>
-        </li>
-    </c:forEach>
-</ul>
+<c:if test="${empty itemMap}">
+    <p>There is no searching results.</p>
+</c:if>
+<c:if test="${not empty itemMap}">
+<c:forEach items="${itemMap}" var="item">
+    <p>${item.key} ${item.value.title}</p>
+    <p>${item.value.price}</p>
+</c:forEach>
+</c:if>
 
 </body>
 </html>
