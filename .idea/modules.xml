@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Uptimer.iml" filepath="$PROJECT_DIR$/.idea/modules/Uptimer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Uptimer_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Uptimer_main.iml" group="Uptimer" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Uptimer_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Uptimer_test.iml" group="Uptimer" />
+    </modules>
+  </component>
+</project>
