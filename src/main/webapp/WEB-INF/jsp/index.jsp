@@ -8,9 +8,11 @@
 <body>
 
 <div align="center">
-    <h1>Search in amazon</h1>
-    <form:form method="post" action="/" commandName="queryForm">
+    <form:form action="/" method="post" commandName="queryForm">
         <table>
+            <tr>
+                <td colspan="2" align="center"><h2>Spring MVC Amazoner</h2></td>
+            </tr>
             <tr>
                 <td><form:input path="query" placeholder="Product name"/></td>
                 <td><form:select path="category" items="${categoryList}"/></td>
@@ -19,6 +21,17 @@
         </table>
     </form:form>
 </div>
+
+
+<h2>Results:</h2>
+<ul>
+    <c:forEach items="${itemList}" var="item">
+        <li>
+            <p>${item}</p>
+            <p>${item.price}</p>
+        </li>
+    </c:forEach>
+</ul>
 
 </body>
 </html>

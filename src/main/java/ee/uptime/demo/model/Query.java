@@ -8,9 +8,9 @@ public class Query {
     private String query;
     private String category;
 
-    private static List<String> categoryList = new ArrayList<>();
+    private List<String> categoryList = new ArrayList<>();
 
-    static {
+    {
         categoryList.add("Apparel");
         categoryList.add("Baby");
         categoryList.add("Beauty");
@@ -59,12 +59,12 @@ public class Query {
     }
 
 
-    public static List<String> getCategoryList() {
+    public List<String> getCategoryList() {
         return categoryList;
     }
 
-    public static void setCategoryList(List<String> categoryList) {
-        Query.categoryList = categoryList;
+    public void setCategoryList(List<String> categoryList) {
+        this.categoryList = categoryList;
     }
 
 }
