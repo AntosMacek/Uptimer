@@ -1,7 +1,7 @@
 package ee.uptime.demo.controller;
 
-import ee.uptime.demo.RequestService;
-import ee.uptime.demo.QueryHandler;
+import ee.uptime.demo.service.RequestService;
+import ee.uptime.demo.handler.QueryHandler;
 import ee.uptime.demo.model.Item;
 import ee.uptime.demo.model.Query;
 import org.springframework.stereotype.Controller;
@@ -29,13 +29,13 @@ public class WebController extends WebMvcConfigurerAdapter {
     private static String signedUrl;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String showIndex(Map<String, Object> model) {
+    public ModelAndView showIndex(Map<String, Object> model) {
 
         Query queryForm = new Query();
         model.put("queryForm", queryForm);
         model.put("categoryList", queryForm.getCategoryList());
 
-        return "index";
+        return new ModelAndView("index", model);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
@@ -45,24 +45,30 @@ public class WebController extends WebMvcConfigurerAdapter {
         model.addAttribute("categoryList", query.getCategoryList());
 
         cacheItems(query);
-        
+
         if (cachedItems.size() == 0) {
-            model.addAttribute("nothingFound", "There was no results");
+//            model.addAttribute("nothingFound", "There was no results");
             return new ModelAndView("index", model);
         } else {
             model.addAttribute("itemsInfo", createPageInfo(1));
-            return new ModelAndView("redirect:/result/1");
+            return new ModelAndView("redirect:/1");
         }
     }
 
-    @RequestMapping(value = "/result/{page}")
+    @RequestMapping(value = "/{page}")
     public ModelAndView showResult(@PathVariable int page, ModelMap model) {
+
+        Query queryForm = new Query();
+        model.put("queryForm", queryForm);
+        model.put("categoryList", queryForm.getCategoryList());
+
+
 
         model.addAttribute("page", page);
         model.addAttribute("itemsInfo", createPageInfo(page));
         model.addAttribute("pagesAmount", pagesAmount);
 
-        return new ModelAndView("result", model);
+        return new ModelAndView("index", model);
     }
 
     private ArrayList<Item> createPageInfo(int page) {

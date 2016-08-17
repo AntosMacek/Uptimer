@@ -1,5 +1,6 @@
-package ee.uptime.demo;
+package ee.uptime.demo.service;
 
+import ee.uptime.demo.handler.SignedRequestsHandler;
 import ee.uptime.demo.model.Query;
 
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class RequestService {
         /*
          * Set up the signed requests helper.
          */
-        SignedRequestsHelper helper = new SignedRequestsHelper();
+        SignedRequestsHandler helper = new SignedRequestsHandler();
 
         String requestUrl = null;
 
@@ -39,7 +40,7 @@ public class RequestService {
 
         requestUrl = helper.sign(params);
 
-        log.info("Signed URL: \"" + requestUrl + "\"");
+//        log.info("Signed URL: \"" + requestUrl + "\"");
 
         return requestUrl;
     }

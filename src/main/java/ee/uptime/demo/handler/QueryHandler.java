@@ -1,4 +1,4 @@
-package ee.uptime.demo;
+package ee.uptime.demo.handler;
 
 import ee.uptime.demo.model.Item;
 import org.xml.sax.Attributes;

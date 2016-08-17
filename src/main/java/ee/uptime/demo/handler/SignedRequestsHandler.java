@@ -1,4 +1,4 @@
-package ee.uptime.demo;
+package ee.uptime.demo.handler;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -12,7 +12,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class SignedRequestsHelper {
+public class SignedRequestsHandler {
     private static final String UTF8_CHARSET = "UTF-8";
     private static final String HMAC_SHA256_ALGORITHM = "HmacSHA256";
     private static final String REQUEST_URI = "/onca/xml";
@@ -25,7 +25,7 @@ public class SignedRequestsHelper {
     private SecretKeySpec secretKeySpec = null;
     private Mac mac = null;
 
-    public SignedRequestsHelper() {
+    public SignedRequestsHandler() {
         byte[] secretyKeyBytes = new byte[0];
         try {
             secretyKeyBytes = awsSecretKey.getBytes(UTF8_CHARSET);
