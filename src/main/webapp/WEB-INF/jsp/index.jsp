@@ -23,16 +23,7 @@
     </form:form>
 </div>
 
-<h2>Results:</h2>
-<c:if test="${empty itemMap}">
-    <p>There is no searching results.</p>
-</c:if>
-<c:if test="${not empty itemMap}">
-<c:forEach items="${itemMap}" var="item">
-    <p>${item.key} ${item.value.title}</p>
-    <p>${item.value.price}</p>
-</c:forEach>
-</c:if>
+<p>${nothingFound}</p>
 
 </body>
 </html>

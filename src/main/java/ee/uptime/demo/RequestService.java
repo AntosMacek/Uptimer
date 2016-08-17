@@ -15,22 +15,6 @@ import java.util.logging.Logger;
  */
 public class RequestService {
 
-    /*
-     * Your AWS Access Key ID, as taken from the AWS Your Account page.
-     */
-    private static final String AWS_ACCESS_KEY_ID = "AKIAJILKKBDHTI6DGRFQ";
-
-    /*
-     * Your AWS Secret Key corresponding to the above ID, as taken from the AWS
-     * Your Account page.
-     */
-    private static final String AWS_SECRET_KEY = "RFQE6KpPb+zxT4Ozjwvdhr7cNtyhTozNCoD6lRXg";
-
-    /*
-     * Use the end-point according to the region you are interested in.
-     */
-    private static final String ENDPOINT = "webservices.amazon.com";
-
     static Logger log = Logger.getLogger(RequestService.class.getName());
 
     public static String getSignedUrl(Query query) {
