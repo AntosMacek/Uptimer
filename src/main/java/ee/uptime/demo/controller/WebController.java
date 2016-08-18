@@ -1,5 +1,6 @@
 package ee.uptime.demo.controller;
 
+import ee.uptime.demo.handler.PageHandler;
 import ee.uptime.demo.service.RequestService;
 import ee.uptime.demo.handler.QueryHandler;
 import ee.uptime.demo.model.Item;
@@ -23,9 +24,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @Controller
 public class WebController extends WebMvcConfigurerAdapter {
 
-    public static ArrayList<Item> items;
-    public static ConcurrentHashMap<Integer, Item> cachedItems;
-    private static int pagesAmount;
+//    public static ArrayList<Item> items;
+//    public static ConcurrentHashMap<Integer, Item> cachedItems;
+//    private static int pagesAmount;
     private static String signedUrl;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -44,12 +45,12 @@ public class WebController extends WebMvcConfigurerAdapter {
         model.addAttribute("queryForm", query);
         model.addAttribute("categoryList", query.getCategoryList());
 
-        cacheItems(query);
+        PageHandler.cacheItems(query);
 
-        if (cachedItems.size() == 0) {
+        if (PageHandler.getCachedItems().size() == 0) {
             return new ModelAndView("index", model);
         } else {
-            model.addAttribute("itemsInfo", createPageInfo(1));
+            model.addAttribute("itemsInfo", PageHandler.createPageInfo(1));
             return new ModelAndView("redirect:/1");
         }
     }
@@ -64,53 +65,53 @@ public class WebController extends WebMvcConfigurerAdapter {
 
 
         model.addAttribute("page", page);
-        model.addAttribute("itemsInfo", createPageInfo(page));
-        model.addAttribute("pagesAmount", pagesAmount);
+        model.addAttribute("itemsInfo", PageHandler.createPageInfo(page));
+        model.addAttribute("pagesAmount", PageHandler.getPagesAmount());
 
         return new ModelAndView("index", model);
     }
 
-    private ArrayList<Item> createPageInfo(int page) {
-        ArrayList<Item> pageList = new ArrayList<>();
-
-        int pageIndex = 1 + (page - 1) * 13;
-        int pageLimitIndex = pageIndex + 13;
-        if (pageLimitIndex > 101) {
-            pageLimitIndex = 101;
-        }
-        for (int i = pageIndex; i < pageLimitIndex; i++) {
-            Item item = cachedItems.get(i);
-            if (item != null) {
-                pageList.add(item);
-            }
-        }
-        return pageList;
-    }
-
-    private void parseUrl(String url) {
-        try {
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            SAXParser saxParser = factory.newSAXParser();
-            QueryHandler queryHandler = new QueryHandler();
-            saxParser.parse(url, queryHandler);
-            Thread.sleep(1000); //avoiding error 503 (one request per second)
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void cacheItems(Query query) {
-        items = new ArrayList<>();
-        cachedItems =  new ConcurrentHashMap<>();
-        for (int i = 1; i < 11; i++) {
-            String url = RequestService.getSignedUrl(query);
-            parseUrl(url);
-        }
-        int itemsSize = items.size();
-        for (int i = 0; i < itemsSize; i++) {
-            cachedItems.put(i+1, items.get(i));
-        }
-        pagesAmount = cachedItems.size() / 13 + 1;
-    }
+//    private ArrayList<Item> createPageInfo(int page) {
+//        ArrayList<Item> pageList = new ArrayList<>();
+//
+//        int pageIndex = 1 + (page - 1) * 13;
+//        int pageLimitIndex = pageIndex + 13;
+//        if (pageLimitIndex > 101) {
+//            pageLimitIndex = 101;
+//        }
+//        for (int i = pageIndex; i < pageLimitIndex; i++) {
+//            Item item = cachedItems.get(i);
+//            if (item != null) {
+//                pageList.add(item);
+//            }
+//        }
+//        return pageList;
+//    }
+//
+//    private void parseUrl(String url) {
+//        try {
+//            SAXParserFactory factory = SAXParserFactory.newInstance();
+//            SAXParser saxParser = factory.newSAXParser();
+//            QueryHandler queryHandler = new QueryHandler();
+//            saxParser.parse(url, queryHandler);
+//            Thread.sleep(1000); //avoiding error 503 (one request per second)
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    private void cacheItems(Query query) {
+//        items = new ArrayList<>();
+//        cachedItems =  new ConcurrentHashMap<>();
+//        for (int i = 1; i < 11; i++) {
+//            String url = RequestService.getSignedUrl(query);
+//            parseUrl(url);
+//        }
+//        int itemsSize = items.size();
+//        for (int i = 0; i < itemsSize; i++) {
+//            cachedItems.put(i+1, items.get(i));
+//        }
+//        pagesAmount = cachedItems.size() / 13 + 1;
+//    }
 
 }

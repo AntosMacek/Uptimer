@@ -5,8 +5,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import static ee.uptime.demo.controller.WebController.items;
-
 
 public class QueryHandler extends DefaultHandler {
 
@@ -68,7 +66,7 @@ public class QueryHandler extends DefaultHandler {
             bItemAttributes = false;
             bItem = false;
             item.setPrice(sb.toString());
-            items.add(item);
+            PageHandler.getItems().add(item);
         }
     }
 }
