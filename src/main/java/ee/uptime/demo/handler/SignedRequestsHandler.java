@@ -33,11 +33,7 @@ public class SignedRequestsHandler {
                     new SecretKeySpec(secretyKeyBytes, HMAC_SHA256_ALGORITHM);
             mac = Mac.getInstance(HMAC_SHA256_ALGORITHM);
             mac.init(secretKeySpec);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
+        } catch (UnsupportedEncodingException | InvalidKeyException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }
@@ -54,13 +50,10 @@ public class SignedRequestsHandler {
                         + endpoint + "\n"
                         + REQUEST_URI + "\n"
                         + canonicalQS;
-
         String hmac = hmac(toSign);
         String sig = percentEncodeRfc3986(hmac);
-        String url = "http://" + endpoint + REQUEST_URI + "?" +
+        return "http://" + endpoint + REQUEST_URI + "?" +
                 canonicalQS + "&Signature=" + sig;
-
-        return url;
     }
 
     private String hmac(String stringToSign) {
@@ -79,12 +72,10 @@ public class SignedRequestsHandler {
     }
 
     private String timestamp() {
-        String timestamp = null;
         Calendar cal = Calendar.getInstance();
         DateFormat dfm = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         dfm.setTimeZone(TimeZone.getTimeZone("GMT"));
-        timestamp = dfm.format(cal.getTime());
-        return timestamp;
+        return dfm.format(cal.getTime());
     }
 
     private String canonicalize(SortedMap<String, String> sortedParamMap)

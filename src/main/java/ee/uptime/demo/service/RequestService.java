@@ -7,25 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-/*
- * This class shows how to make a simple authenticated call to the
- * Amazon Product Advertising API.
- *
- * See the README.html that came with this sample for instructions on
- * configuring and running the sample.
- */
 public class RequestService {
 
     static Logger log = Logger.getLogger(RequestService.class.getName());
 
     public static String getSignedUrl(Query query) {
 
-        /*
-         * Set up the signed requests helper.
-         */
         SignedRequestsHandler helper = new SignedRequestsHandler();
-
-        String requestUrl = null;
 
         Map<String, String> params = new HashMap<String, String>();
 
@@ -34,11 +22,12 @@ public class RequestService {
         params.put("AWSAccessKeyId", "AKIAJILKKBDHTI6DGRFQ");
         params.put("AssociateTag", "paintnguess-20");
         params.put("SearchIndex", query.getCategory());
+        params.put("ItemPage", query.getPage() + "");
         params.put("Keywords", query.getQuery());
         params.put("ResponseGroup", "ItemAttributes,Offers");
         params.put("Sort", "price");
 
-        requestUrl = helper.sign(params);
+        String requestUrl = helper.sign(params);
 
         log.info("Signed URL: \"" + requestUrl + "\"");
 

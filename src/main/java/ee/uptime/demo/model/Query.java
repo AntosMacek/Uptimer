@@ -7,6 +7,7 @@ public class Query {
 
     private String query;
     private String category;
+    private int page;
 
     private List<String> categoryList = new ArrayList<>();
 
@@ -58,6 +59,13 @@ public class Query {
         this.query = query;
     }
 
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
 
     public List<String> getCategoryList() {
         return categoryList;

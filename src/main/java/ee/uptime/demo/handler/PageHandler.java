@@ -33,13 +33,16 @@ public class PageHandler {
         return pageList;
     }
 
-    public static void cacheItems(Query query) {
+    public static void createCachedItems(Query query) {
         items = new ArrayList<>();
         cachedItems =  new ConcurrentHashMap<>();
+
         for (int i = 1; i < 11; i++) {
+            query.setPage(i);
             String url = RequestService.getSignedUrl(query);
             parseUrl(url);
         }
+
         int itemsSize = items.size();
         for (int i = 0; i < itemsSize; i++) {
             cachedItems.put(i+1, items.get(i));
