@@ -40,7 +40,7 @@ public class RequestService {
 
         requestUrl = helper.sign(params);
 
-//        log.info("Signed URL: \"" + requestUrl + "\"");
+        log.info("Signed URL: \"" + requestUrl + "\"");
 
         return requestUrl;
     }

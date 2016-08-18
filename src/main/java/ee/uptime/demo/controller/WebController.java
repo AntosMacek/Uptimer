@@ -47,7 +47,6 @@ public class WebController extends WebMvcConfigurerAdapter {
         cacheItems(query);
 
         if (cachedItems.size() == 0) {
-//            model.addAttribute("nothingFound", "There was no results");
             return new ModelAndView("index", model);
         } else {
             model.addAttribute("itemsInfo", createPageInfo(1));
@@ -80,29 +79,13 @@ public class WebController extends WebMvcConfigurerAdapter {
             pageLimitIndex = 101;
         }
         for (int i = pageIndex; i < pageLimitIndex; i++) {
-            pageList.add(cachedItems.get(i));
+            Item item = cachedItems.get(i);
+            if (item != null) {
+                pageList.add(item);
+            }
         }
         return pageList;
     }
-
-//    @RequestMapping(value="/{pageId}", method = RequestMethod.GET)
-//    public ModelAndView edit(@PathVariable int pageId, @ModelAttribute("queryForm") Query query, ModelMap model) {
-//
-//        model.addAttribute("queryForm", query);
-//        model.addAttribute("categoryList", query.getCategoryList());
-//
-//        cacheItems(query);
-//
-//        model.addAttribute("itemMap", cachedItems);
-//        int total = cachedItems.size() / 13 + 1;
-//        if(pageId == 1) {
-//
-//        } else {
-//            pageId = (pageId - 1) * total + 1;
-//        }
-//
-//        return new ModelAndView("index", model);
-//    }
 
     private void parseUrl(String url) {
         try {
@@ -110,6 +93,7 @@ public class WebController extends WebMvcConfigurerAdapter {
             SAXParser saxParser = factory.newSAXParser();
             QueryHandler queryHandler = new QueryHandler();
             saxParser.parse(url, queryHandler);
+            Thread.sleep(1000); //avoiding error 503 (one request per second)
         } catch (Exception e) {
             e.printStackTrace();
         }
