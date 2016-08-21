@@ -5,13 +5,21 @@ import java.util.List;
 
 public class Query {
 
-    private String query;
-    private String category;
-    private int page;
+    private final String query;
+    private final String category;
+    private final int page;
 
-    private List<String> categoryList = new ArrayList<>();
 
-    {
+    private static final List<String> CATEGORIES = populateCategories();
+
+    public Query(String query, String category, int page) {
+        this.query = query;
+        this.category = category;
+        this.page = page;
+    }
+
+    private static List<String> populateCategories() {
+        List<String> categoryList = new ArrayList<>();
         categoryList.add("Apparel");
         categoryList.add("Baby");
         categoryList.add("Beauty");
@@ -41,38 +49,40 @@ public class Query {
         categoryList.add("VideoGames");
         categoryList.add("Wireless");
         categoryList.add("WirelessAccessories");
+        return categoryList;
     }
+
 
     public String getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
 
     public String getQuery() {
         return query;
     }
 
-    public void setQuery(String query) {
-        this.query = query;
-    }
-
-    public int getPage() {
-        return page;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
-    }
 
     public List<String> getCategoryList() {
-        return categoryList;
+        return CATEGORIES;
     }
 
-    public void setCategoryList(List<String> categoryList) {
-        this.categoryList = categoryList;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Query query1 = (Query) o;
+
+        if (query != null ? !query.equals(query1.query) : query1.query != null) return false;
+        return category != null ? category.equals(query1.category) : query1.category == null;
+
     }
 
+    @Override
+    public int hashCode() {
+        int result = query != null ? query.hashCode() : 0;
+        result = 31 * result + (category != null ? category.hashCode() : 0);
+        return result;
+    }
 }

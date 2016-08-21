@@ -5,6 +5,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.util.function.Consumer;
+
 
 public class QueryHandler extends DefaultHandler {
 
@@ -16,8 +18,18 @@ public class QueryHandler extends DefaultHandler {
     private boolean bLowestNewPrice = false;
     private boolean bFormattedPrice = false;
 
+    private Consumer<Item> onItem;
+
     private StringBuilder sb;
     private Item item;
+
+
+    public QueryHandler() {//TODO remove
+    }
+
+    public QueryHandler(Consumer<Item> onItem) {
+        this.onItem = onItem;
+    }
 
     @Override
     public void startElement(String uri,
@@ -66,7 +78,8 @@ public class QueryHandler extends DefaultHandler {
             bItemAttributes = false;
             bItem = false;
             item.setPrice(sb.toString());
-            PageHandler.getItems().add(item);
+            //PageHandler.getItems().add(item);
+            onItem.accept(item);
         }
     }
 }

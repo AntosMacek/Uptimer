@@ -22,7 +22,7 @@ public class RequestService {
         params.put("AWSAccessKeyId", "AKIAJILKKBDHTI6DGRFQ");
         params.put("AssociateTag", "paintnguess-20");
         params.put("SearchIndex", query.getCategory());
-        params.put("ItemPage", query.getPage() + "");
+        ///params.put("ItemPage", query.getPage() + "");
         params.put("Keywords", query.getQuery());
         params.put("ResponseGroup", "ItemAttributes,Offers");
         params.put("Sort", "price");
