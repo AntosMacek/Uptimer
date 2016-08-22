@@ -11,7 +11,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -25,14 +24,13 @@ public class ConcurrentRequestService {
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(4);
 
-
     public List<Future<List<Item>>> requestItems(Query query) {
 
         List<Future<List<Item>>> futRet = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-
+            final int pageCounter = i + 1;
             Future<List<Item>> fut = executorService.submit(() -> {
-                String url = RequestService.getSignedUrl(query);
+                String url = RequestService.getSignedUrl(query, pageCounter);
 
                 List<Item> resultHolder = new ArrayList<Item>();
                 parseUrl(url, item -> resultHolder.add(item));
@@ -50,8 +48,8 @@ public class ConcurrentRequestService {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
             QueryHandler queryHandler = new QueryHandler(onItem);
+//            Thread.sleep(1000); //avoiding error 503 (one request per second)
             saxParser.parse(url, queryHandler);
-            Thread.sleep(1000); //avoiding error 503 (one request per second)
         } catch (Exception e) {
             e.printStackTrace();
         }

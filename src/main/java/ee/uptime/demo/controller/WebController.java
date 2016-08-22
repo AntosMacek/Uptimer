@@ -24,12 +24,13 @@ public class WebController extends WebMvcConfigurerAdapter {
 
     @Autowired
     private QueryService cachingService;
+    private List<Item> items;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView showIndex(Map<String, Object> model) {
 
 
-        Query queryForm = new Query("","", 0);
+        Query queryForm = new Query();
         model.put("queryForm", queryForm);
         model.put("categoryList", queryForm.getCategoryList());
 
@@ -42,8 +43,7 @@ public class WebController extends WebMvcConfigurerAdapter {
         model.addAttribute("queryForm", query);
         model.addAttribute("categoryList", query.getCategoryList());
 
-        List<Item> items = cachingService.search(query);
-        PageHandler.createCachedItems(query);
+        items = cachingService.search(query);
 
         model.addAttribute("itemsInfo", items);
         return new ModelAndView("redirect:/1");
@@ -52,13 +52,13 @@ public class WebController extends WebMvcConfigurerAdapter {
     @RequestMapping(value = "/{page}")
     public ModelAndView showResult(@PathVariable int page, ModelMap model) {
 
-        Query queryForm = new Query("","", page);
+        Query queryForm = new Query();
         model.put("queryForm", queryForm);
         model.put("categoryList", queryForm.getCategoryList());
 
         model.addAttribute("page", page);
-        model.addAttribute("itemsInfo", PageHandler.createPageInfo(page));
-        model.addAttribute("pagesAmount", PageHandler.getPagesAmount());
+        model.addAttribute("itemsInfo", PageHandler.createPageInfo(page, items));
+        model.addAttribute("pagesAmount", items.size() / 13 + 1);
 
         return new ModelAndView("index", model);
     }

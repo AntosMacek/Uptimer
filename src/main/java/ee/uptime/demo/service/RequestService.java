@@ -11,7 +11,7 @@ public class RequestService {
 
     static Logger log = Logger.getLogger(RequestService.class.getName());
 
-    public static String getSignedUrl(Query query) {
+    public static String getSignedUrl(Query query, int page) {
 
         SignedRequestsHandler helper = new SignedRequestsHandler();
 
@@ -22,7 +22,7 @@ public class RequestService {
         params.put("AWSAccessKeyId", "AKIAJILKKBDHTI6DGRFQ");
         params.put("AssociateTag", "paintnguess-20");
         params.put("SearchIndex", query.getCategory());
-        ///params.put("ItemPage", query.getPage() + "");
+        params.put("ItemPage", page + "");
         params.put("Keywords", query.getQuery());
         params.put("ResponseGroup", "ItemAttributes,Offers");
         params.put("Sort", "price");

@@ -78,7 +78,6 @@ public class QueryHandler extends DefaultHandler {
             bItemAttributes = false;
             bItem = false;
             item.setPrice(sb.toString());
-            //PageHandler.getItems().add(item);
             onItem.accept(item);
         }
     }
